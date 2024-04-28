@@ -1,0 +1,39 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.rest-assured:rest-assured:5.4.0'
+    implementation 'org.json:json:20240303'
+    implementation 'org.apache.commons:commons-configuration2:2.9.0'
+    testImplementation 'io.cucumber:cucumber-java:7.17.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.17.0'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+configurations {
+    cucumberRuntime
+}
+
+dependencies {
+    cucumberRuntime 'io.cucumber:cucumber-core:7.17.0'
+    cucumberRuntime 'io.cucumber:cucumber-java:7.17.0'
+    cucumberRuntime 'io.cucumber:cucumber-junit:7.17.0'
+}
+
+task cucumberTest() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+            args = [
+              '--plugin', 'pretty',
+              '--plugin', 'html:target/cucumber-report.html', 
+              '--glue',  'com.example.app.definitions', 'src/test/resources']
+        }
+    }
+}

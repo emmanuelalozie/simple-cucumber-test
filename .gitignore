@@ -1,2 +1,6 @@
 // Ignore Gradle folder
 .gradle/
+.vscode/
+bin/
+build/
+target/
