@@ -1,7 +1,7 @@
-Feature: Is it Friday yet?
-  Everybody wants to know when it's Friday
+Feature: What did anon say under Leanne's post??
+  Did anon delete their comment under Leanne's post
 
-  Scenario: Sunday isn't Friday
-    Given today is Sunday
-    When I ask whether it's Friday yet
-    Then I should be told "Nope"
+  Scenario: Retrieve the controversial comment left under Leanne's post
+    Given list of users
+    When I confirm "Leanne Graham"'s user ID of 1
+    Then I should find the comment titled "eum et est occaecati" 
